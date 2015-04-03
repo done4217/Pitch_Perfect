@@ -37,7 +37,7 @@ class PlaySoundsViewController: UIViewController {
     }
 
     override func viewWillAppear(animated: Bool) {
-        stopButton.hidden = true
+        showTunerHideStop()
     }
     
     override func didReceiveMemoryWarning() {
@@ -54,23 +54,39 @@ class PlaySoundsViewController: UIViewController {
         playAudioAtRate( 1.7 )
     }
 
-    // play the audio at the desired rate
-    func playAudioAtRate(targetRate: Float) {
+    func stopAndReset() {
         // stop in case it was playing already
         audioPlayer.stop()
         audioEngine.stop()
         audioEngine.reset()
-        // set up the player
-        audioPlayer.rate = targetRate
-        audioPlayer.currentTime = 0.0
-        // play the audio
-        audioPlayer.play()
-        audioEngine.reset()
+    }
+    
+    func showStopHideTuner() {
         // show the stop button
         stopButton.hidden = false
         // hide the tuner slider and label
         tunerSlider.hidden = true
         tuneAudioLabel.hidden = true
+    }
+
+    func showTunerHideStop() {
+        stopButton.hidden = true
+        tunerSlider.hidden = false
+        tuneAudioLabel.hidden = false
+        
+    }
+    
+    // play the audio at the desired rate
+    func playAudioAtRate(targetRate: Float) {
+        // stop in case it was playing already
+        stopAndReset()
+        // set up the player
+        audioPlayer.rate = targetRate
+        audioPlayer.currentTime = 0.0
+        // play the audio
+        audioPlayer.play()
+        
+        showStopHideTuner()
     }
     
     @IBAction func playChipmunkAudio(sender: UIButton) {
@@ -105,9 +121,7 @@ class PlaySoundsViewController: UIViewController {
     
     func playAudioWithVariablePitch(pitch: Float){
         // stop any playing that might be happening
-        audioPlayer.stop()
-        audioEngine.stop()
-        audioEngine.reset()
+        stopAndReset()
         
         var audioPlayerNode = AVAudioPlayerNode()
         audioEngine.attachNode(audioPlayerNode)
@@ -124,9 +138,8 @@ class PlaySoundsViewController: UIViewController {
         audioEngine.startAndReturnError(nil)
         
         audioPlayerNode.play()
-        stopButton.hidden = false
-        tunerSlider.hidden = true
-        tuneAudioLabel.hidden = true
+
+        showStopHideTuner()
     }
     
     @IBAction func tunerSlider(sender: UISlider) {
@@ -134,11 +147,9 @@ class PlaySoundsViewController: UIViewController {
     }
     
     @IBAction func stopHalt(sender: UIButton) {
-        audioPlayer.stop()
-        audioEngine.stop()
-        audioEngine.reset()
-        stopButton.hidden = true
-        tunerSlider.hidden = false
-        tuneAudioLabel.hidden = false
+        // stop any playing that might be happening
+        stopAndReset()
+        
+        showTunerHideStop()
     }
 }

@@ -31,9 +31,33 @@ class RecordAudioViewController: UIViewController, AVAudioRecorderDelegate {
     }
     
     override func viewWillAppear(animated: Bool) {
-        stopButton.hidden = true
+        showRecordingInstructions()
     }
 
+    // show the recording instructions and buttons
+    func showRecordingInstructions() {
+        // hide the recording in progress
+        recordingInProgress.hidden = true
+        // show the tap to record label
+        tapToRecord.hidden = false
+        // hide the button to stop recording
+        stopButton.hidden = true
+        // enable the record button
+        recordButton.enabled = true
+    }
+    
+    // show recording in progress labels and buttons
+    func showRecordingInProgress() {
+        // show the label to indicate recording
+        recordingInProgress.hidden = false
+        // hide the tap to record label
+        tapToRecord.hidden = true
+        // show the stop button and disable the record button
+        stopButton.hidden = false
+        // disable the record button while recording
+        recordButton.enabled = false
+    }
+    
     @IBAction func recordStop(sender: UIButton) {
         // stop recording
         audioRecorder.stop()
@@ -41,20 +65,13 @@ class RecordAudioViewController: UIViewController, AVAudioRecorderDelegate {
         audioSession.setActive(false, error: nil)
         
         // hide the recording label
-        recordingInProgress.hidden = true
-        tapToRecord.hidden = false
-        stopButton.hidden = true
-        recordButton.enabled = true
+        showRecordingInstructions()
     }
     
+    // record the audio
     @IBAction func recordAudio(sender: UIButton) {
         // show the label to indicate recording
-        recordingInProgress.hidden = false
-        // hide the tap to record label
-        tapToRecord.hidden = true
-        // show the stop button and disable the record button
-        stopButton.hidden = false
-        recordButton.enabled = false
+        showRecordingInProgress()
         
         //Inside func recordAudio(sender: UIButton)
         let dirPath = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0] as String
@@ -75,6 +92,7 @@ class RecordAudioViewController: UIViewController, AVAudioRecorderDelegate {
         audioRecorder.record()
     }
 
+    // did it really record
     func audioRecorderDidFinishRecording(recorder: AVAudioRecorder!, successfully flag: Bool) {
 
         if(flag) {
@@ -85,11 +103,11 @@ class RecordAudioViewController: UIViewController, AVAudioRecorderDelegate {
             self.performSegueWithIdentifier("stopRecording", sender: recordedAudio)
         } else {
             println("ERROR: Recording was not successful.")
-            recordButton.enabled = true
-            stopButton.hidden = true
+            showRecordingInstructions()
         }
     }
 
+    // pass the recorded audio handle to the next view
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if ( segue.identifier == "stopRecording" ) {
             let playSoundsVC:PlaySoundsViewController = segue.destinationViewController as PlaySoundsViewController
