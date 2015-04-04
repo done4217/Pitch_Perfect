@@ -17,11 +17,13 @@ class PlaySoundsViewController: UIViewController {
     @IBOutlet weak var tunerSlider: UISlider!
     @IBOutlet weak var tuneAudioLabel: UILabel!
     
-    var audioPlayer:AVAudioPlayer!
-    var receivedAudio:RecordedAudio!
+    var audioPlayer: AVAudioPlayer!
     
-    var audioEngine:AVAudioEngine!
-    var audioFile:AVAudioFile!
+    var receivedAudio: RecordedAudio!
+    
+    var audioEngine: AVAudioEngine!
+    
+    var audioFile: AVAudioFile!
     
     var adjustment:Float!
     

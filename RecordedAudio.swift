@@ -8,15 +8,14 @@
 
 import Foundation
 
-// I'm not sure if this is correct or not but it seems to work
-class RecordedAudio {
+// I'm not sure I really understand this initializer but it is working
+// and I think it is done correctly now...
+class RecordedAudio: NSObject{
     var title: String!
     var filePathUrl: NSURL!
-    
-    // trying to understand initiators better...
-    init() {
-        self.title = "default"
-        self.filePathUrl = NSURL.fileURLWithPath("default")
-    }
-    
+
+    init(filePathUrl: NSURL, title: String) {
+        self.filePathUrl = filePathUrl
+        self.title = title
+    }    
 }
