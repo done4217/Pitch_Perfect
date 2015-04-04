@@ -80,9 +80,11 @@ class PlaySoundsViewController: UIViewController {
     func playAudioAtRate(targetRate: Float) {
         // stop in case it was playing already
         stopAndReset()
+        
         // set up the player
         audioPlayer.rate = targetRate
         audioPlayer.currentTime = 0.0
+        
         // play the audio
         audioPlayer.play()
         
@@ -91,7 +93,7 @@ class PlaySoundsViewController: UIViewController {
     
     @IBAction func playChipmunkAudio(sender: UIButton) {
         // pitch range is -2400 to 2400
-        var basepitch = Float( 850 )
+        var basepitch = Float( 950 )
         
         // let user tune it +/- 300
         var tuneadjustment = Float(0)
@@ -106,7 +108,7 @@ class PlaySoundsViewController: UIViewController {
  
     @IBAction func playDarthVaderAudio(sender: UIButton) {
         // pitch range is -2400 to 2400
-        var basepitch = Float( -1150 )
+        var basepitch = Float( -1050 )
         
         // let user tune it +/- 300
         var tuneadjustment = Float(0)

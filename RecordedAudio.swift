@@ -8,12 +8,13 @@
 
 import Foundation
 
-class RecordedAudio: NSObject{
-    var filePathUrl: NSURL!
+// I'm not sure if this is correct or not but it seems to work
+class RecordedAudio {
     var title: String!
+    var filePathUrl: NSURL!
     
     // trying to understand initiators better...
-    override init() {
+    init() {
         self.title = "default"
         self.filePathUrl = NSURL.fileURLWithPath("default")
     }
